@@ -67,10 +67,10 @@ def authbtc():
     if status is not None:
         return redirect(status)
     form = BTCCodeForm()
-    url = urljoin(str(os.getenv('BTCPAY_HOST')), 'api-tokens')
+    url = urljoin(str(os.getenv('BTCPAY_APP_HOST')), 'api-tokens')
     if form.validate_on_submit():
         client = BTCPayClient.create_client(
-                host=app.config.get('BTCPAY_HOST'),
+                host=app.config.get('BTCPAY_APP_HOST'),
                 code=form.code.data,
         )
         save('btc_client', client)
@@ -141,7 +141,7 @@ def paymentapi():
         if not isinstance(invoice, dict):
             app.logger.info(f'IPN: {request.json["id"]} is spam')
             return "Spam IPN", 200
-        if request.json['status'] == 'paid' and (invoice['status'] == 'paid' or 
+        if request.json['status'] == 'paid' and (invoice['status'] == 'paid' or
                 invoice['status'] == 'confirmed' or invoice['status'] == 'complete') \
                 and fetch('mail_on'):
             # emails buyer when invoice is "paid"

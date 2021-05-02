@@ -35,7 +35,7 @@ def login(cookies):
     # checks by making get request on BTCPay protected resource
     # if user user is logged in to BTCPay, returns None
     # if user is not logged into BTCPay, returns BTCPay URL to log in
-    url = urljoin(str(os.getenv('BTCPAY_HOST')), 'server/users')
+    url = urljoin(str(os.getenv('BTCPAY_APP_HOST')), 'server/users')
     response = requests.get(url, cookies=cookies)
     try:
         first = response.history[0]
